@@ -1,11 +1,13 @@
+// @flow
 import React, { useState, useEffects} from 'react';
 import {graphql, createFragmentContainer} from 'react-relay';
 import { Link } from 'react-router-dom';
 import { DIRECTIONS } from 'react-with-direction/dist/DirectionProvider';
 
+import type { DataSet_item } from './DataSet_item.graphql.js'
 import { DataConsumer } from './DataContext';
 
-const DataSet = (props) => {
+const DataSet = (props: DataSet_item) => {
 
   return (
     <DataConsumer>
