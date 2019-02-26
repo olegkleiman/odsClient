@@ -5,5 +5,12 @@ html {
 body {
   font: 14px 'Helvetica Neue', "Segoe UI", Arial, sans-serif;
   min-height: 100%;
-  background:white;
+  background: white;
+}
+.switch {
+  display: flex
+}
+
+.card-nav-tabs .header {
+    margin-top: -10px;
 }

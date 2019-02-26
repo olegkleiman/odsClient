@@ -44,7 +44,7 @@ const App = () => {
                                 direction: direction}
                               }>
             <div dir={direction}>
-              <button onClick={changeLang}>{t('Switch')}</button>
+              <button className='switch' onClick={changeLang}>{t('Switch')}</button>
               <Switch>
                 <Route exact path='/' component={Home} />
                 <Route path='/category/:categoryId' component={Category} />
