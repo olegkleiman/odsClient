@@ -9,6 +9,7 @@ import type { HomeQueryResponse } from '__generated__/HomeQuery.graphql.js'
 import { DataConsumer } from './DataContext';
 import environment from './Environment';
 import DataSet from './DataSet';
+import DataSetList from './DataSetList';
 
 const HomeQuery = graphql`
   query HomeQuery {
@@ -20,7 +21,7 @@ const HomeQuery = graphql`
     datasets {
       name
       id
-      ...DataSet_item @module(name: "DataSet_item.react")
+      ...DataSetList_list @module(name: "DataSetList_list.react")
     }
   }
 `;
@@ -47,28 +48,24 @@ const Home = (props) => {
 
                                 return (<>
                                   <h2>{t('Categories')}</h2>
+                                  <ul>
                                   {
                                       props.categories.map( (item, index) => {
 
                                         const categoryName = ( direction === 'ltr' ) ? item.name : item.heb_name;
 
-                                        return (<div key={index}>
+                                        return (<li key={index}>
                                                   <Link to={`/category/${item.id}`}>{categoryName}</Link>
-                                                </div>)
+                                                </li>)
                                       })
                                   }
+                                  </ul>
                                 </>)
                               }}
 
                             </DataConsumer>
                             <h2>{t('DataSets')}</h2>
-                            {
-                              props.datasets.map( (item, index) => {
-                                return (<div key={index}>
-                                          <DataSet item={item} />
-                                       </div>)
-                              })
-                            }
+                            <DataSetList list={props.datasets} />
                          </>)
                 }}
             />

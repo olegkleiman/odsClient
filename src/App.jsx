@@ -1,6 +1,7 @@
 // @flow
 import React, { useState } from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
+import { Link } from 'react-router-dom';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
@@ -49,6 +50,7 @@ const styles = theme => ({
   },
   title: {
     display: 'none',
+    color: 'white',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -136,9 +138,11 @@ const App = (props) => {
                   <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
                     <MenuIcon />
                   </IconButton>
-                  <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    TLV OpenData
-                  </Typography>
+                  <Link to={'/'} style={{textDecoration: 'none'}}>
+                    <Typography className={classes.title} variant="h6" noWrap>
+                      TLV OpenData
+                    </Typography>
+                  </Link>
                   <div className={classes.grow} />
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>

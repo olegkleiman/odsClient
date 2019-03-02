@@ -6,7 +6,7 @@ import {graphql, QueryRenderer} from 'react-relay';
 import type { DataSetContentQueryResponse, DataSetType } from './__generated__/DataSetContentQuery.graphql.js'
 import environment from './Environment';
 import ReportDataSet from './ReportDataSet';
-import GoogleSheetDataSet from './GoogleSheetDataSet';
+import CompoundtDataSet from './CompoundtDataSet';
 
 const DataSetContentQuery = graphql`
   query DataSetContentQuery($datasetId: ID!) {
@@ -48,9 +48,12 @@ const DataSetContent = (props: DataSetContentQueryResponse) => {
 
                       if( props.dataset.type == 'REPORT') {
                         return (<ReportDataSet dataset={props.dataset} />)
-                      } else {
-                      return <GoogleSheetDataSet />
-                    }
+                      } else if( props.dataset.type == 'COMPOUND' ){
+                        return <CompoundtDataSet />
+                      }
+                      else {
+                        return null;
+                      }
                    } }/>
 
   );

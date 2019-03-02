@@ -8,9 +8,9 @@ const DataSetList = (props: DataSetList_list) => {
   return (<ul>
     {
       props.list.map( (item, index) => {
-        return (<li>
-                <Link to={`/ds/${item.id}`} key={index} >{item.name}</Link>
-              </li>)
+        return (<li key={index}>
+                  <Link to={`/ds/${item.id}`} key={index} >{item.name} ({item.type})</Link>
+                </li>)
       })
     }
   </ul>)
@@ -22,5 +22,6 @@ graphql`
   fragment DataSetList_list on DataSet @relay(plural: true) {
     name
     id
+    type
   }
 `);
