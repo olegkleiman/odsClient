@@ -36,6 +36,6 @@ graphql`
     heb_name
     type
     description
-    heb_description    
+    heb_description
   }
 `);

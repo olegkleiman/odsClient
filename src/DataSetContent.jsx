@@ -14,10 +14,14 @@ const DataSetContentQuery = graphql`
       name
       type
       id
-      url
+    	visualizations {
+        name
+        heb_name
+        url
+      }
       data_url
       description
-      heb_description      
+      heb_description
     }
   }
 `;
@@ -42,8 +46,7 @@ const DataSetContent = (props: DataSetContentQueryResponse) => {
                       }
 
                       if( props.dataset.type == 'REPORT') {
-                        return (<ReportDataSet dataUrl={props.dataset.data_url}
-                                               reportUrl={props.dataset.url} />)
+                        return (<ReportDataSet dataset={props.dataset} />)
                       } else {
                       return <GoogleSheetDataSet />
                     }
