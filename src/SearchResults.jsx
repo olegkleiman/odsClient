@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
+import { Link } from "react-router-dom";
 import _ from 'lodash';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -17,12 +18,14 @@ query SearchResultsQuery(
   search(contains: $query) {
 
     ... on DataSet {
+      id
       name
       description
       type
       __typename
     }
     ... on Category {
+      id
       name
       description
       __typename
@@ -56,6 +59,19 @@ const SearchResults = (props) => {
                                 if (!props) {
                                     return (<div>Loading...</div>);
                                 }
+
+                                return(
+                                  props.search.map ( (item, index) => {
+                                    const _to = ( item.__typename == 'Category' ) ?
+                                                `/category/${item.id}` :
+                                                `/ds/${item.id}`;
+                                    return (<div key={index}>
+                                              <Link to={_to}>
+                                                {item.name}
+                                              </Link>
+                                            </div>)
+                                  })
+                                )
                             }}
                 />
             </Paper>
