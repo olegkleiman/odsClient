@@ -22,6 +22,7 @@ const DataSetContentQuery = graphql`
       data_url
       description
       heb_description
+      whenPublished
     }
   }
 `;

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import "react-tabs/style/react-tabs.css";
 import { useTranslation } from "react-i18next";
+import moment from 'moment';
 
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
@@ -100,9 +101,13 @@ const ReportDataSet = ({dataset}) => {
                         <DataConsumer>
                           {
                             ({direction}) => {
-                              const description = ( direction === 'ltr' ) ?
+                              const _description = ( direction === 'ltr' ) ?
                                 dataset.description : dataset.heb_description;
-                              return (<div>{description}</div>);
+                              const _whenPublished = moment(dataset.whenPublished) ;
+                              return (<div>
+                                        <div>{_description}</div>
+                                        <div>{_whenPublished.format('YYYY-MM-DD')}</div>
+                                      </div>);
                             }
                         }
                         </DataConsumer>

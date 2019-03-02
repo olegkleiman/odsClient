@@ -37,5 +37,6 @@ graphql`
     type
     description
     heb_description
+    whenPublished
   }
 `);
