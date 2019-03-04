@@ -23,9 +23,7 @@ const ReportDataSet = ({dataset}) => {
   const [isError, setIsError] = useState(false);
   const [vizMenuOpen, setVizMenuOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [url, setUrl] = useState(
-    'https://sheets.googleapis.com/v4/spreadsheets/1GXt4v3Sa1hogK2vvD6fgiEJEG7_kOSr4k_j3riDsXts/values:batchGet?ranges=A:Z&key=AIzaSyABrJkY9bVKLn3YB8f4kmiiGBDWhv4goYA',
-  );
+  const [url, setUrl] = useState(dataset.data_url);
 
   const fetchData = async () => {
     // setIsLoading(true);
