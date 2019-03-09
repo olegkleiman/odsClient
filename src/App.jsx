@@ -1,4 +1,6 @@
-// @flow
+/**
+ * @flow
+ */
 import React, { useState } from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
 import { Link } from 'react-router-dom';
@@ -25,6 +27,9 @@ import Home from './Home';
 import Category from './Category';
 import DataSetContent from './DataSetContent';
 import SearchResults from './SearchResults';
+
+import Admin from './Admin';
+import Dashboard from './admin/Dashboard';
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -166,6 +171,8 @@ const App = (props) => {
                 <Route path='/category/:categoryId' component={Category} />
                 <Route path="/ds/:dsId" component={DataSetContent} />
                 <Route path='/search' component={SearchResults} />
+                <Route path='/admin' component={Admin} />
+                <Route path='/dashboard' component={Dashboard} />
               </Switch>
             </div>
         </DataProvider>)

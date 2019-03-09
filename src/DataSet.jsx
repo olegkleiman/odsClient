@@ -1,4 +1,6 @@
-// @flow
+/**
+ * @flow
+ */
 import React, { useState, useEffects} from 'react';
 import {graphql, createFragmentContainer} from 'react-relay';
 import { Link } from 'react-router-dom';
