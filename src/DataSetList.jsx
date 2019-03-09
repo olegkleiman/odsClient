@@ -1,15 +1,17 @@
 // @flow
 import React from 'react';
 import {graphql, createFragmentContainer} from 'react-relay';
-import { Link } from "react-router-dom";
+import { uid } from "react-uid";
 import type { DataSetList_list } from '__generated__/DataSetList_list.graphql.js';
+
+import DataSet from './DataSet';
 
 const DataSetList = (props: DataSetList_list) => {
   return (<ul>
     {
-      props.list.map( (item, index) => {
-        return (<li key={index}>
-                  <Link to={`/ds/${item.id}`} key={index} >{item.name} ({item.type})</Link>
+      props.list.datasets.edges.map( item => {
+        return (<li key={ uid(item) }>
+                    <DataSet item={item.node} />
                 </li>)
       })
     }
@@ -19,9 +21,21 @@ const DataSetList = (props: DataSetList_list) => {
 export default createFragmentContainer(
 DataSetList,
 graphql`
-  fragment DataSetList_list on DataSet @relay(plural: true) {
-    name
-    id
-    type
+  fragment DataSetList_list on Query
+    @argumentDefinitions(
+      first: { type: "Int!" }
+      after: { type: "String" }
+    ) {
+      datasets(first: $first, after: $after) @connection(key: "DataSetList_datasets") {
+      	edges {
+          node {
+            ...DataSet_item
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
   }
 `);

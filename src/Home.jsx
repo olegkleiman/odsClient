@@ -8,21 +8,17 @@ import type { HomeQueryResponse } from '__generated__/HomeQuery.graphql.js'
 
 import { DataConsumer } from './DataContext';
 import environment from './Environment';
-import DataSet from './DataSet';
 import DataSetList from './DataSetList';
 
 const HomeQuery = graphql`
-  query HomeQuery {
+  query HomeQuery ($first: Int!, $after: String) {
     categories {
       name
       heb_name
       id
     }
-    datasets {
-      name
-      id
-      ...DataSetList_list @module(name: "DataSetList_list.react")
-    }
+    ...DataSetList_list @arguments (first: $first, after: $after)
+                        @module(name: "DataSetList_list.react")
   }
 `;
 
@@ -33,7 +29,9 @@ const Home = (props) => {
     return <QueryRenderer
                 environment={environment}
                 query={HomeQuery}
-                variables={{}}
+                variables={{
+                  first: 10
+                }}
                 render={ ({error, props}) => {
                   if (error) {
                       return <div>{error}</div>;
@@ -62,10 +60,9 @@ const Home = (props) => {
                                   </ul>
                                 </>)
                               }}
-
                             </DataConsumer>
                             <h2>{t('DataSets')}</h2>
-                            <DataSetList list={props.datasets} />
+                            <DataSetList list={props} />
                          </>)
                 }}
             />

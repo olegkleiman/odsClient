@@ -10,9 +10,7 @@ query CategoryQuery($categoryId: ID!) {
     name
     heb_name
     id
-    datasets {
-      ...DataSetList_list
-    }
+
   }
 }
 `;
