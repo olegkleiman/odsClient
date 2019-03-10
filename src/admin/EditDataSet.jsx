@@ -3,8 +3,9 @@
  */
 import React, { useState } from 'react';
 import {commitMutation, graphql} from 'react-relay';
+import moment from 'moment';
 import environment from '../Environment';
-import type { DataSetInput } from '__generated__/EditDataSetMutation.graphql.js'
+import AddDataSetMutation from './mutations/AddDataSetMutation';
 
 import { withStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
@@ -34,14 +35,6 @@ const styles = theme => ({
   },
 });
 
-const mutation = graphql`
-  mutation EditDataSetMutation(
-    $input: DataSetInput!
-  ) {
-    addDataSet(input: $input)
-  }
-`;
-
 const EditDataSet = (props) => {
 
   const callback = props.callback;
@@ -49,33 +42,43 @@ const EditDataSet = (props) => {
 
   const [addModalOpen, setModalOpen] = useState(true);//props.show);
 
+  const [name, setName] = useState('');
+  const [hebName, setHebName] = useState('');
+  const [description, setDescription] = useState('');
+  const [hebDescription, setHebDescriptionChanged] = useState('');
+
   const handleModalClose = () => {
     setModalOpen(false);
     callback();
   }
 
   const updateDataSet = () => {
+    const newDataSet = {
+        name: name,
+        heb_name: hebName,
+        description: description,
+        heb_description: hebDescription,
+        type: "REPORT",
+        whenPublished: moment().format('YYYY-MM-DD'),
+        categoryId: 1002,
+    };
+    AddDataSetMutation.commit(environment ,newDataSet);
+  }
 
-    const variables = {
-        input: {
-          name: "one",
-          heb_name: "two"
-        },
-      };
+  const nameChanged = (event) => {
+    setName(event.target.value);
+  }
 
-    commitMutation(environment,
-      {
-        mutation,
-        variables,
-        updater: (store: RecordSourceSelectedProxy) => {
-          console.log('updater');
-        },
-        onCompleted: (response, errors) => {
-          console.log('Response received from server.')
-        },
-        onError: err => console.error(err),
-      });
+  const hebNameChanged = (event) => {
+    setHebName(event.target.value);
+  }
 
+  const descriptionChanged = (event) => {
+    setDescription(event.target.value);
+  }
+
+  const hebDescriptionChanged = (event) => {
+    setDescription(event.target.value);
   }
 
   return (<Dialog aria-labelledby="form-dialog-title"
@@ -98,6 +101,7 @@ const EditDataSet = (props) => {
             <TextField
               autoFocus
               required
+              onChange={nameChanged}
               margin="dense"
               id="name"
               label="Name"
@@ -106,6 +110,7 @@ const EditDataSet = (props) => {
             />
             <TextField
               required
+              onChange={hebNameChanged}
               margin="normal"
               id="heb_name"
               label="Hebrew Name"
@@ -114,6 +119,7 @@ const EditDataSet = (props) => {
             />
             <TextField
               required
+              onChange={descriptionChanged}
               margin="normal"
               multiline
               rowsMax="4"

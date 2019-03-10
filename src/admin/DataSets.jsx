@@ -73,7 +73,10 @@ export default createPaginationContainer(withStyles(styles)(DataSets),
          first: { type: "Int!" }
          after: { type: "String" }
        ) {
-          datasets(first: $first, after: $after) @connection(key: "DataSets_datasets") {
+          datasets(first: $first, after: $after) @connection(
+            key: "DataSets_datasets"
+            filters: []
+          ) {
           	edges {
               node {
                 ...DataSetItem_item
