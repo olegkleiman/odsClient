@@ -53,7 +53,7 @@ const EditDataSet = (props) => {
     }
   });
 
-  const [addModalOpen, setModalOpen] = useState(true);//props.show);
+  const [addModalOpen, setModalOpen] = useState(props.show);
 
   const [name, setName] = useState('');
   const [hebName, setHebName] = useState('');

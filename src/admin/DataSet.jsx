@@ -36,16 +36,18 @@ const DataSet = ({item, classes}) => {
   return (<Card className={classes.card}>
             <CardContent>
               <Typography className={classes.title} color="textSecondary" gutterBottom>
-                DataSet Name
+                DataSet #{item.id}
               </Typography>
               <Typography variant="h5" component="h2">
                 {item.name}
               </Typography>
               <Typography component="p">
-                {item.description}
+                {item.description.substr(0, 40).trim()}...
               </Typography>
               <Typography component="p">
-                {item.data_url}
+                <a href={item.data_url} target="_blank">
+                  Data URL
+                </a>
               </Typography>
             </CardContent>
             <CardActions>
@@ -63,6 +65,7 @@ export default createFragmentContainer(
         url
         data_url
         description
+        heb_description
         visualizations {
           name
           heb_name
