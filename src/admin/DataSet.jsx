@@ -63,5 +63,10 @@ export default createFragmentContainer(
         url
         data_url
         description
+        visualizations {
+          name
+          heb_name
+          url
+        }
     }
   `);

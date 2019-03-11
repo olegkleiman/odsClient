@@ -8,6 +8,7 @@ import environment from '../Environment';
 import AddDataSetMutation from './mutations/AddDataSetMutation';
 
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +18,8 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Select from 'react-select'
 
 const styles = theme => ({
   paper: {
@@ -33,12 +36,22 @@ const styles = theme => ({
   flex: {
     flex: 1,
   },
+  chip: {
+    margin: theme.spacing.unit / 2,
+  },
 });
 
 const EditDataSet = (props) => {
 
   const callback = props.callback;
   const classes = props.classes;
+  const categories = props.categories;
+  const categoryOptions = categories.map( category => {
+    return {
+      value: category.id,
+      label: category.name
+    }
+  });
 
   const [addModalOpen, setModalOpen] = useState(true);//props.show);
 
@@ -46,6 +59,7 @@ const EditDataSet = (props) => {
   const [hebName, setHebName] = useState('');
   const [description, setDescription] = useState('');
   const [hebDescription, setHebDescriptionChanged] = useState('');
+  const [categoryIds, setCategoryIds] = useState();
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -60,7 +74,7 @@ const EditDataSet = (props) => {
         heb_description: hebDescription,
         type: "REPORT",
         whenPublished: moment().format('YYYY-MM-DD'),
-        categoryId: 1002,
+        categoryIds: categoryIds,
     };
     AddDataSetMutation.commit(environment ,newDataSet);
   }
@@ -81,6 +95,11 @@ const EditDataSet = (props) => {
     setDescription(event.target.value);
   }
 
+  const categoriesChanged = (items) => {
+    const ids = items.map( item => parseInt(item.value,10) );
+    setCategoryIds(ids);
+  }
+
   return (<Dialog aria-labelledby="form-dialog-title"
                   fullScreen
                   open={addModalOpen}
@@ -98,36 +117,67 @@ const EditDataSet = (props) => {
                 </Button>
               </Toolbar>
             </AppBar>
-            <TextField
-              autoFocus
-              required
-              onChange={nameChanged}
-              margin="dense"
-              id="name"
-              label="Name"
-              variant="outlined"
-              fullWidth
-            />
-            <TextField
-              required
-              onChange={hebNameChanged}
-              margin="normal"
-              id="heb_name"
-              label="Hebrew Name"
-              variant="outlined"
-              fullWidth
-            />
-            <TextField
-              required
-              onChange={descriptionChanged}
-              margin="normal"
-              multiline
-              rowsMax="4"
-              id="description"
-              label="Description"
-              variant="outlined"
-              fullWidth
-            />
+            <Grid container spacing={24}>
+              <Grid item xs={4}>
+                <TextField
+                  autoFocus
+                  required
+                  onChange={nameChanged}
+                  margin="dense"
+                  id="name"
+                  label="Name"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  onChange={hebNameChanged}
+                  margin="dense"
+                  id="heb_name"
+                  label="Hebrew Name"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={4}>
+                  <Select isMulti
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    name="categories"
+                    onChange={categoriesChanged}
+                    options={categoryOptions} />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  onChange={descriptionChanged}
+                  margin="dense"
+                  multiline
+                  rowsMax="4"
+                  id="description"
+                  label="Description"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  onChange={hebDescriptionChanged}
+                  margin="dense"
+                  multiline
+                  rowsMax="4"
+                  id="description"
+                  label="Hebrew Description"
+                  variant="outlined"
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+
+
           </Dialog>);
 
 };

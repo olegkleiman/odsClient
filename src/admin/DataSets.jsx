@@ -45,7 +45,8 @@ const DataSets = (props) => {
 
   return (<div className={classes.root}>
             <EditDataSet show={show}
-                         callback={hideDataSetEditor} />
+                         callback={hideDataSetEditor}
+                         categories={props.root.categories} />
 
             <Grid container spacing={24}>
             {
@@ -73,6 +74,10 @@ export default createPaginationContainer(withStyles(styles)(DataSets),
          first: { type: "Int!" }
          after: { type: "String" }
        ) {
+         categories {
+           name
+           id
+         }
           datasets(first: $first, after: $after) @connection(
             key: "DataSets_datasets"
             filters: []
