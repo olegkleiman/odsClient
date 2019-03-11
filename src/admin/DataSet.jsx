@@ -27,7 +27,7 @@ const styles = {
   },
 };
 
-const DataSet = ({item, classes}) => {
+const DataSet = ({item, classes, maxTextLength}) => {
 
   const editDataSet = () => {
     console.log('edit');
@@ -42,7 +42,7 @@ const DataSet = ({item, classes}) => {
                 {item.name}
               </Typography>
               <Typography component="p">
-                {item.description.substr(0, 40).trim()}...
+                {item.description.substr(0, maxTextLength).trim()}...
               </Typography>
               <Typography component="p">
                 <a href={item.data_url} target="_blank">

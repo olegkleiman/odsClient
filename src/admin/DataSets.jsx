@@ -52,7 +52,8 @@ const DataSets = (props) => {
             {
               props.root.datasets.edges.map( dataset => {
                 return <Grid item xs={3} key={ uid(dataset) }>
-                          <DataSet item={dataset.node} />
+                          <DataSet maxTextLength={40} 
+                                  item={dataset.node} />
                       </Grid>
               })
             }
