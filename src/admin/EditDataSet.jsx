@@ -1,7 +1,7 @@
 /**
  * @flow
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {commitMutation, graphql} from 'react-relay';
 import moment from 'moment';
 import environment from '../Environment';
@@ -53,7 +53,10 @@ const EditDataSet = (props) => {
     }
   });
 
-  const [addModalOpen, setModalOpen] = useState(props.show);
+  const [openDialog, setOpenDialog] = useState(props.show);
+  useEffect( () => {
+    setOpenDialog(props.show);
+  })
 
   const [name, setName] = useState('');
   const [hebName, setHebName] = useState('');
@@ -62,7 +65,7 @@ const EditDataSet = (props) => {
   const [categoryIds, setCategoryIds] = useState();
 
   const handleModalClose = () => {
-    setModalOpen(false);
+    setOpenDialog(false);
     callback();
   }
 
@@ -102,7 +105,7 @@ const EditDataSet = (props) => {
 
   return (<Dialog aria-labelledby="form-dialog-title"
                   fullScreen
-                  open={addModalOpen}
+                  open={openDialog}
                   onClose={handleModalClose}>
             <AppBar className={classes.appBar}>
               <Toolbar>
