@@ -25,8 +25,10 @@ graphql`
     @argumentDefinitions(
       first: { type: "Int!" }
       after: { type: "String" }
+      categoryId: { type: "ID" }
     ) {
-      datasets(first: $first, after: $after) @connection(key: "DataSetList_datasets") {
+      datasets(first: $first, after: $after, categoryId: $categoryId)
+          @connection(key: "DataSetList_datasets") {
       	edges {
           node {
             ...DataSet_item

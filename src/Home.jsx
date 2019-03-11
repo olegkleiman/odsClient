@@ -11,13 +11,15 @@ import environment from './Environment';
 import DataSetList from './DataSetList';
 
 const HomeQuery = graphql`
-  query HomeQuery ($first: Int!, $after: String) {
+  query HomeQuery ($first: Int!, $after: String, $categoryId: ID) {
     categories {
       name
       heb_name
       id
     }
-    ...DataSetList_list @arguments (first: $first, after: $after)
+    ...DataSetList_list @arguments (first: $first,
+                                    after: $after,
+                                    categoryId: $categoryId)
                         @module(name: "DataSetList_list.react")
   }
 `;
