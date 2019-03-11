@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {graphql, createFragmentContainer} from 'react-relay';
+import { graphql, createPaginationContainer } from 'react-relay';
 import { uid } from "react-uid";
 import type { DataSetList_list } from '__generated__/DataSetList_list.graphql.js';
 
@@ -18,7 +18,7 @@ const DataSetList = (props: DataSetList_list) => {
   </ul>)
 };
 
-export default createFragmentContainer(
+export default createPaginationContainer(
 DataSetList,
 graphql`
   fragment DataSetList_list on Query
@@ -39,5 +39,29 @@ graphql`
           endCursor
         }
       }
+    }
+  `,
+  {
+    direction: 'forward',
+    query: graphql`
+    query DataSetList_Query($first: Int!,
+                      $after: String) {
+      	...DataSets_root @arguments(first: $first,
+                                 after: $after)
+      }
+    `,
+    getFragmentVariables: (prevVars, totalCount) => {
+      return {
+        ...prevVars,
+        count: totalCount
+      }
+    },
+    getVariables: (props, {count, cursor}, fragmentVariables) => {
+      return {
+        first: count,
+        after: cursor,
+        firstComment: 1
+      }
+    }
   }
-`);
+);
