@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import {commitMutation, graphql} from 'react-relay';
 import moment from 'moment';
+import classNames from 'classnames';
 import environment from '../Environment';
 import AddDataSetMutation from './mutations/AddDataSetMutation';
 
@@ -16,10 +17,13 @@ import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Select from 'react-select'
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
+import Select from 'react-select';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 const styles = theme => ({
   paper: {
@@ -36,8 +40,14 @@ const styles = theme => ({
   flex: {
     flex: 1,
   },
-  chip: {
-    margin: theme.spacing.unit / 2,
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
+  },
+  select: {
+    marginTop: '8px',
+    marginBottom: '4px'
   },
 });
 
@@ -63,10 +73,12 @@ const EditDataSet = (props) => {
   const [description, setDescription] = useState('');
   const [hebDescription, setHebDescriptionChanged] = useState('');
   const [categoryIds, setCategoryIds] = useState();
+  const [tabIndex, setTabIndex] = useState(0);
 
   const handleModalClose = () => {
     setOpenDialog(false);
-    callback();
+    if( callback )
+      callback();
   }
 
   const updateDataSet = () => {
@@ -103,6 +115,14 @@ const EditDataSet = (props) => {
     setCategoryIds(ids);
   }
 
+  const addVisualization = () => {
+
+  }
+
+  const selectClassNames = classNames({
+    [`basic-multi-select ${classes.select}`]: true
+  })
+
   return (<Dialog aria-labelledby="form-dialog-title"
                   fullScreen
                   open={openDialog}
@@ -120,66 +140,84 @@ const EditDataSet = (props) => {
                 </Button>
               </Toolbar>
             </AppBar>
-            <Grid container spacing={24}>
-              <Grid item xs={4}>
-                <TextField
-                  autoFocus
-                  required
-                  onChange={nameChanged}
-                  margin="dense"
-                  id="name"
-                  label="Name"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  required
-                  onChange={hebNameChanged}
-                  margin="dense"
-                  id="heb_name"
-                  label="Hebrew Name"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                  <Select isMulti
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    name="categories"
-                    onChange={categoriesChanged}
-                    options={categoryOptions} />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  onChange={descriptionChanged}
-                  margin="dense"
-                  multiline
-                  rowsMax="4"
-                  id="description"
-                  label="Description"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  onChange={hebDescriptionChanged}
-                  margin="dense"
-                  multiline
-                  rowsMax="4"
-                  id="description"
-                  label="Hebrew Description"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
+            <Tabs selectedIndex={tabIndex}
+                  onSelect={tabIndex => setTabIndex(tabIndex)}>
+              <TabList>
+                <Tab>Basic</Tab>
+                <Tab>Visualizations</Tab>
+              </TabList>
 
+              <TabPanel>
+                <Grid container spacing={24}>
+                  <Grid item xs={4}>
+                    <TextField
+                      autoFocus
+                      required
+                      onChange={nameChanged}
+                      margin="dense"
+                      id="name"
+                      label="Name"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      required
+                      onChange={hebNameChanged}
+                      margin="dense"
+                      id="heb_name"
+                      label="Hebrew Name"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                      <Select isMulti
+                        className={selectClassNames}
+                        classNamePrefix="select"
+                        name="categories"
+                        onChange={categoriesChanged}
+                        options={categoryOptions} />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      onChange={descriptionChanged}
+                      margin="dense"
+                      multiline
+                      rowsMax="4"
+                      id="description"
+                      label="Description"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      onChange={hebDescriptionChanged}
+                      margin="dense"
+                      multiline
+                      rowsMax="4"
+                      id="description"
+                      label="Hebrew Description"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+              </Grid>
+              </TabPanel>
+              <TabPanel>
+                <Grid container spacing={24}>
+                  <Fab onClick={addVisualization}
+                       color="secondary" aria-label="Add"
+                       className={classes.fab}>
+                    <AddIcon />
+                  </Fab>
+                </Grid>
+              </TabPanel>
+            </Tabs>
 
           </Dialog>);
 

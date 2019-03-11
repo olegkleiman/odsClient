@@ -31,6 +31,8 @@ import SearchResults from './SearchResults';
 import Admin from './Admin';
 import Dashboard from './admin/Dashboard';
 
+import "react-tabs/style/react-tabs.css";
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
