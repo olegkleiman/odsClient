@@ -27,10 +27,10 @@ const styles = {
   },
 };
 
-const DataSet = ({item, classes, maxTextLength}) => {
+const DataSet = ({item, classes, maxTextLength, editCallback}) => {
 
-  const editDataSet = () => {
-    console.log('edit');
+  const _editDataSet = () => {
+    editCallback(item);
   }
 
   return (<Card className={classes.card}>
@@ -51,7 +51,7 @@ const DataSet = ({item, classes, maxTextLength}) => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button onClick={editDataSet} size="small" color="primary">Edit</Button>
+              <Button onClick={_editDataSet} size="small" color="primary">Edit</Button>
             </CardActions>
           </Card>)
 }
@@ -61,6 +61,7 @@ export default createFragmentContainer(
   graphql`
     fragment DataSetItem_item on DataSet {
         name
+        heb_name
         id
         url
         data_url

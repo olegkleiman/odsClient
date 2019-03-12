@@ -53,6 +53,7 @@ const styles = theme => ({
 
 const EditDataSet = (props) => {
 
+  const dataset = props.dataset;
   const callback = props.callback;
   const classes = props.classes;
   const categories = props.categories;
@@ -66,6 +67,17 @@ const EditDataSet = (props) => {
   const [openDialog, setOpenDialog] = useState(props.show);
   useEffect( () => {
     setOpenDialog(props.show);
+    if( dataset ) {
+      setName(dataset.name);
+      setHebName(dataset.heb_name);
+      setDescription(dataset.description);
+      setHebDescriptionChanged(dataset.heb_description);
+    } else {
+      setName(null);
+      setHebName(null);
+      setDescription(null);
+      setHebDescriptionChanged(null);
+    }
   })
 
   const [name, setName] = useState('');
@@ -153,6 +165,7 @@ const EditDataSet = (props) => {
                     <TextField
                       autoFocus
                       required
+                      defaultValue={name}
                       onChange={nameChanged}
                       margin="dense"
                       id="name"
@@ -164,6 +177,7 @@ const EditDataSet = (props) => {
                   <Grid item xs={4}>
                     <TextField
                       required
+                      defaultValue={hebName}
                       onChange={hebNameChanged}
                       margin="dense"
                       id="heb_name"
@@ -183,6 +197,7 @@ const EditDataSet = (props) => {
                   <Grid item xs={12}>
                     <TextField
                       required
+                      defaultValue={description}
                       onChange={descriptionChanged}
                       margin="dense"
                       multiline
@@ -196,6 +211,7 @@ const EditDataSet = (props) => {
                   <Grid item xs={12}>
                     <TextField
                       required
+                      defaultValue={hebDescription}
                       onChange={hebDescriptionChanged}
                       margin="dense"
                       multiline

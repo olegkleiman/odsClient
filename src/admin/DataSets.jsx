@@ -29,12 +29,18 @@ const DataSets = (props) => {
 
   const classes = props.classes;
   const [show, setShow] = useState(false);
+  const [editDataset, setEditDataSet] = useState();
 
   const showDataSetEditor = () => {
+    setEditDataSet(null);
     setShow(true);
   }
   const hideDataSetEditor = () => {
     setShow(false);
+  }
+  const editDataSet = (dataset) => {
+    setEditDataSet(dataset);
+    setShow(true);
   }
 
   const _loadMore = () => {
@@ -46,14 +52,16 @@ const DataSets = (props) => {
   return (<div className={classes.root}>
             <EditDataSet show={show}
                          callback={hideDataSetEditor}
+                         dataset={editDataset}
                          categories={props.root.categories} />
 
             <Grid container spacing={24}>
             {
               props.root.datasets.edges.map( dataset => {
                 return <Grid item xs={3} key={ uid(dataset) }>
-                          <DataSet maxTextLength={40} 
-                                  item={dataset.node} />
+                          <DataSet maxTextLength={40}
+                                   editCallback={editDataSet}
+                                   item={dataset.node} />
                       </Grid>
               })
             }
