@@ -2,43 +2,37 @@
  * @flow
  */
 import React from 'react';
-import FacebookLogin from 'react-facebook-login';
-import { GoogleLogin } from 'react-google-login';
+import {graphql, QueryRenderer} from 'react-relay';
+
+import environment from './Environment';
+import Logins from './admin/Logins';
+
+const AdminQuery = graphql`
+  query AdminQuery {
+    validatedUsers {
+      ...Logins_list @module(name: "Logins.react")
+    }
+  }
+`;
 
 const Admin = (props) => {
 
-  const facebookResponse = (response) => {
-    console.log(response);
-    if( response.id ) {
-      localStorage.setItem('odsAuthProvider', 'facebook');
-      localStorage.setItem('odsUserToken', response.accessToken);
-      localStorage.setItem('odsUserPicture', response.picture.data.url);
-      props.history.push('/dashboard');
-    }
-  }
+  return <QueryRenderer
+              environment={environment}
+              query={AdminQuery}
+              variables={{}}
+              render = { ({error, props}) => {
+                  if (error) {
+                      return <div>{error}</div>;
+                  }
+                  if (!props) {
+                      return (<div>Loading...</div>);
+                  }
 
-  const googleResponse = (response) => {
-    console.log(response);
-    if( response.googleId ) {
-      localStorage.setItem('odsAuthProvider', 'google');
-      localStorage.setItem('odsUserToken', response.tokenId);
-      localStorage.setItem('odsUserPicture', response.profileObj.imageUrl);
-      props.history.push('/dashboard');
-    }
-  }
+                  return <Logins list={props.validatedUsers} />;
+              }}
+          />
 
-  return (<>
-        <FacebookLogin
-            appId="2148500592147265"
-            autoLoad={false}
-            fields="name,email,picture"
-            callback={facebookResponse} />
-          <GoogleLogin
-              clientId="1049230588636-gprtqumhag54a8g4nlpu7d8pje0vpmak.apps.googleusercontent.com"
-              buttonText="Login with Google"
-              onSuccess={googleResponse}
-              onFailure={googleResponse} />
-          </>)
 };
 
 export default Admin;

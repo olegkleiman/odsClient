@@ -25,8 +25,7 @@ async function fetchQuery(operation, variables = {}, cacheConfig) {
   }
 
   const authHeader = `Basic ${localStorage.getItem('odsUserToken')}`;
-  console.log(authHeader);
-
+  
   return fetch(SERVER, {
     method: 'POST',
     headers: {
