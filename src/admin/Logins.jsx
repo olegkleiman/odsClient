@@ -1,8 +1,9 @@
 /**
  * @flow
  */
-import React from 'react';
+import React, { useState } from 'react';
 import {graphql, createFragmentContainer } from 'react-relay';
+import { withRouter } from "react-router-dom";
 import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 
@@ -12,14 +13,34 @@ import ValidateUserMutation from './mutations/ValidateUserMutation';
 
 const Logins = (props) => {
 
+  const [user, setUser] = useState();
+
+  if( user ) { // will be set after successful login response
+     if( props.list[0].email.indexOf(user.email) !== -1 ) {
+       localStorage.setItem('odsUserToken', user.accessToken);
+       localStorage.setItem('odsUserPicture', user.pictureUrl);
+       localStorage.setItem('odsAuthProvider', user.provider);
+
+       props.history.push('/dashboard');
+    }
+  }
+
   const facebookResponse = (response) => {
-    console.log(response);
-    // if( response.id ) {
-    //   localStorage.setItem('odsAuthProvider', 'facebook');
-    //   localStorage.setItem('odsUserToken', response.accessToken);
-    //   localStorage.setItem('odsUserPicture', response.picture.data.url);
-    //   props.history.push('/dashboard');
-    // }
+
+    const user = {
+      email: response.email,
+      accessToken: response.accessToken,
+      pictureUrl: response.picture.data.url,
+      role: 'admin',
+      provider: 'facebook'
+    };
+    setUser(user);
+    ValidateUserMutation.commit(environment,
+      {
+        email: user.email,
+        role: user.role
+      });
+
   }
 
   const googleResponse = (response) => {
@@ -30,15 +51,18 @@ const Logins = (props) => {
     }
     const user = {
       email: response.profileObj.email,
-      role: 'admin'
+      accessToken: response.tokenId,
+      pictureUrl: response.profileObj.imageUrl,
+      role: 'admin',
+      provider: 'google'
     };
-    ValidateUserMutation.commit(environment ,user);
-    // if( response.googleId ) {
-    //   localStorage.setItem('odsAuthProvider', 'google');
-    //   localStorage.setItem('odsUserToken', response.tokenId);
-    //   localStorage.setItem('odsUserPicture', response.profileObj.imageUrl);
-    //   props.history.push('/dashboard');
-    // }
+    setUser(user);
+    ValidateUserMutation.commit(environment,
+      {
+        email: user.email,
+        role: user.role
+      });
+
   }
 
   return(<>
@@ -55,7 +79,7 @@ const Logins = (props) => {
       </>);
 };
 
-export default createFragmentContainer(Logins,
+export default createFragmentContainer(withRouter(Logins),
 graphql`
   fragment Logins_list on ValidatedUser @relay(plural: true) {
     name
