@@ -4230,6 +4230,14 @@ react-facebook-login@^4.1.1:
   resolved "https://registry.yarnpkg.com/react-facebook-login/-/react-facebook-login-4.1.1.tgz#005121236a6ac0dee02099976fb1a3265f9d633e"
   integrity sha512-COnHEHlYGTKipz4963safFAK9PaNTcCiXfPXMS/yxo8El+/AJL5ye8kMJf23lKSSGGPgqFQuInskIHVqGqTvSw==
 
+react-google-login@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-google-login/-/react-google-login-5.0.2.tgz#0eb7964afd53e4a8cd80159b166b3079072717da"
+  integrity sha512-a8ctm/PNPK7DMrtbO1cJF0iXqusEJkYJjCH+iG2GhQe9MvEEalyj7yM5iU3CJJgwmQ+9iVS+VdXepS9rSEBlqA==
+  dependencies:
+    "@types/react" "*"
+    prop-types "^15.6.0"
+
 react-i18next@^10.2.0:
   version "10.2.0"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-10.2.0.tgz#68674945711d4ccfaca52af9e20fe648f84ffad5"

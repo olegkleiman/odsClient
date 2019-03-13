@@ -30,6 +30,7 @@ import SearchResults from './SearchResults';
 
 import Admin from './Admin';
 import Dashboard from './admin/Dashboard';
+import UserProfile from './UserProfile';
 
 import "react-tabs/style/react-tabs.css";
 
@@ -164,6 +165,9 @@ const App = (props) => {
                             input: classes.inputInput,
                           }}
                       />
+                  </div>
+                  <div>
+                    <UserProfile />
                   </div>
                 </Toolbar>
               </AppBar>

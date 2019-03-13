@@ -49,6 +49,9 @@ const styles = theme => ({
     marginTop: '8px',
     marginBottom: '4px'
   },
+  rtl: {
+    direction: 'rtl'
+  },
 });
 
 const EditDataSet = (props) => {
@@ -179,6 +182,7 @@ const EditDataSet = (props) => {
                       required
                       defaultValue={hebName}
                       onChange={hebNameChanged}
+                      className={classes.rtl}
                       margin="dense"
                       id="heb_name"
                       label="Hebrew Name"
@@ -213,6 +217,7 @@ const EditDataSet = (props) => {
                       required
                       defaultValue={hebDescription}
                       onChange={hebDescriptionChanged}
+                      className={classes.rtl}
                       margin="dense"
                       multiline
                       rowsMax="4"

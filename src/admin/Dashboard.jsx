@@ -17,6 +17,11 @@ const DashboardQuery = graphql`
 
 const Dashboard = (props) => {
 
+  if( !localStorage.getItem('odsUserToken') ) {
+    props.history.push('/admin');
+    return null;
+  }
+
   return (<QueryRenderer
               environment={environment}
               query={DashboardQuery}
