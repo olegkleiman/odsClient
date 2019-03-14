@@ -31,15 +31,11 @@ const Logins = (props) => {
       email: response.email,
       accessToken: response.accessToken,
       pictureUrl: response.picture.data.url,
-      role: 'admin',
       provider: 'facebook'
     };
     setUser(user);
     ValidateUserMutation.commit(environment,
-      {
-        email: user.email,
-        role: user.role
-      });
+                                user.email);
 
   }
 
@@ -53,15 +49,11 @@ const Logins = (props) => {
       email: response.profileObj.email,
       accessToken: response.tokenId,
       pictureUrl: response.profileObj.imageUrl,
-      role: 'admin',
       provider: 'google'
     };
     setUser(user);
     ValidateUserMutation.commit(environment,
-      {
-        email: user.email,
-        role: user.role
-      });
+                                user.email);
 
   }
 

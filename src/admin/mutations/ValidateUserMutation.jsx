@@ -1,13 +1,13 @@
 // @flow
 import {commitMutation, graphql} from 'react-relay';
-import type { UserInput } from '__generated__/ValidateUserMutation.graphql.js'
+import type { ValidateUserMutationResponse } from '__generated__/ValidateUserMutation.graphql.js'
 
 const mutation = graphql`
   mutation ValidateUserMutation(
-    $input: UserInput!
+    $input: String!
   )
   {
-    validateUser(input: $input) {
+    validateUserEmail(input: $input) {
       id
       name
       role
@@ -17,9 +17,9 @@ const mutation = graphql`
 `;
 
 const commit = (environment: Environment,
-                input: DataSetInput): Disposable => {
+                email: string): Disposable => {
   const variables = {
-      input: input
+      input: email
     };
 
   commitMutation(environment,
@@ -28,7 +28,7 @@ const commit = (environment: Environment,
       variables,
       updater: (proxyStore: RecordSourceSelectedProxy) => {
           // Get payload after mutation
-          const payload = proxyStore.getRootField('validateUser');
+          const payload = proxyStore.getRootField('validateUserEmail');
           const _emails = payload.getValue('email');
           const _id = payload.getValue('id');
           const _name = payload.getValue('name');

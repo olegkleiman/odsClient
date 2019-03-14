@@ -24,15 +24,20 @@ async function fetchQuery(operation, variables = {}, cacheConfig) {
     return cachedData;
   }
 
-  const authHeader = `Basic ${localStorage.getItem('odsUserToken')}`;
-  
+  let httpHeaders = {
+     'Accept':'application/json',
+     'Content-Type': 'application/json',
+  };
+
+  const token = localStorage.getItem('odsUserToken');
+  if( token ) {
+    const authHeader = `Basic ${token}`;
+    httpHeaders['Authorization'] = authHeader;
+  }
+
   return fetch(SERVER, {
     method: 'POST',
-    headers: {
-       'Accept':'application/json',
-       'Content-Type': 'application/json',
-       "Authorization": authHeader
-    },
+    headers: httpHeaders,
     body: JSON.stringify({
       query: operation.text,
       variables,
