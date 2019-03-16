@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
 import { Link } from 'react-router-dom';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import { GoogleLogout } from 'react-google-login';
+
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +17,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 
+import classNames from 'classnames';
 import i18n from 'i18next';
 import { useTranslation, initReactI18next } from "react-i18next";
 import { DIRECTIONS } from 'react-with-direction/dist/DirectionProvider';
@@ -32,6 +33,7 @@ import SearchResults from './SearchResults';
 import Admin from './Admin';
 import Dashboard from './admin/Dashboard';
 import UserProfile from './UserProfile';
+import Logout from './admin/Logout';
 
 import "react-tabs/style/react-tabs.css";
 
@@ -91,7 +93,12 @@ const styles = theme => ({
     color: 'inherit',
     width: '100%',
   },
-inputInput: {
+  languageSwitch: {
+    paddingLeft: theme.spacing.unit * 5,
+    paddingRight: theme.spacing.unit,
+    cursor: 'pointer'
+  },
+  inputInput: {
     paddingTop: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
@@ -137,15 +144,6 @@ const App = (props) => {
     setSearchQuery(event.target.value);
   }
 
-  const logout = () => {
-     console.log('logout');
-     localStorage.removeItem('odsUserToken');
-     localStorage.removeItem('odsUserPicture');
-     localStorage.removeItem('odsAuthProvider');
-
-     props.history.push('/admin');
-  }
-
   return (<DataProvider value={{
                                 direction: direction,
                                 searchQuery: searchQuery}
@@ -177,19 +175,16 @@ const App = (props) => {
                       />
                   </div>
                   <div>
-                    <GoogleLogout
-                        clientId="1049230588636-gprtqumhag54a8g4nlpu7d8pje0vpmak.apps.googleusercontent.com"
-                        buttonText="Logout"
-                        theme='dark'
-                        onLogoutSuccess={logout}
-                      />
+                    <Logout />
                   </div>
                   <div>
                     <UserProfile />
                   </div>
+                  <div className={classes.languageSwitch}
+                        onClick={changeLang}>{t('Switch')}</div>
                 </Toolbar>
+
               </AppBar>
-              <button className='switch' onClick={changeLang}>{t('Switch')}</button>
               <Switch>
                 <Route exact path='/' component={Home} />
                 <Route path='/category/:categoryId' component={Category} />

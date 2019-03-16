@@ -15,6 +15,7 @@ import EditDataSet from './EditDataSet';
 
 const styles = theme => ({
   root: {
+    paddingTop: 12,
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },

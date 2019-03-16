@@ -5,7 +5,7 @@ import React from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
 
 import environment from './Environment';
-import Logins from './admin/Logins';
+import Login from './admin/Login';
 
 const AdminQuery = graphql`
   query AdminQuery {
@@ -29,7 +29,7 @@ const Admin = (props) => {
                       return (<div>Loading...</div>);
                   }
 
-                  return <Logins list={props.validatedUsers} />;
+                  return <Login list={props.validatedUsers} />;
               }}
           />
 
