@@ -29,10 +29,15 @@ const commit = (environment: Environment,
       updater: (proxyStore: RecordSourceSelectedProxy) => {
           // Get payload after mutation
           const payload = proxyStore.getRootField('validateUserEmail');
+          const _role = payload.getValue('role');
+          // Do not update Store if validated used has no 'admin' role
+          if( _role !== 'admin') {
+            return;
+          }
+          // Otherwise - continue to update Store
           const _emails = payload.getValue('email');
           const _id = payload.getValue('id');
           const _name = payload.getValue('name');
-          const _role = payload.getValue('role');
 
           // Reading Proxy's Values off the Relay Store
           const root = proxyStore.getRoot();

@@ -70,23 +70,23 @@ const EditDataSet = (props) => {
   const [openDialog, setOpenDialog] = useState(props.show);
   useEffect( () => {
     setOpenDialog(props.show);
-    if( dataset ) {
-      setName(dataset.name);
-      setHebName(dataset.heb_name);
-      setDescription(dataset.description);
-      setHebDescriptionChanged(dataset.heb_description);
-    } else {
-      setName(null);
-      setHebName(null);
-      setDescription(null);
-      setHebDescriptionChanged(null);
-    }
+    // if( dataset ) {
+    //   setName(dataset.name);
+    //   setHebName(dataset.heb_name);
+    //   setDescription(dataset.description);
+    //   setHebDescriptionChanged(dataset.heb_description);
+    // } else {
+    //   setName(null);
+    //   setHebName(null);
+    //   setDescription(null);
+    //   setHebDescriptionChanged(null);
+    // }
   })
 
   const [name, setName] = useState('');
   const [hebName, setHebName] = useState('');
   const [description, setDescription] = useState('');
-  const [hebDescription, setHebDescriptionChanged] = useState('');
+  const [hebDescription, setHebDescription] = useState('');
   const [categoryIds, setCategoryIds] = useState();
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -122,7 +122,7 @@ const EditDataSet = (props) => {
   }
 
   const hebDescriptionChanged = (event) => {
-    setDescription(event.target.value);
+    setHebDescription(event.target.value);
   }
 
   const categoriesChanged = (items) => {

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import {graphql, QueryRenderer} from 'react-relay';
 import { Link } from 'react-router-dom';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import { GoogleLogout } from 'react-google-login';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -136,6 +137,15 @@ const App = (props) => {
     setSearchQuery(event.target.value);
   }
 
+  const logout = () => {
+     console.log('logout');
+     localStorage.removeItem('odsUserToken');
+     localStorage.removeItem('odsUserPicture');
+     localStorage.removeItem('odsAuthProvider');
+
+     props.history.push('/admin');
+  }
+
   return (<DataProvider value={{
                                 direction: direction,
                                 searchQuery: searchQuery}
@@ -164,6 +174,14 @@ const App = (props) => {
                             root: classes.inputRoot,
                             input: classes.inputInput,
                           }}
+                      />
+                  </div>
+                  <div>
+                    <GoogleLogout
+                        clientId="1049230588636-gprtqumhag54a8g4nlpu7d8pje0vpmak.apps.googleusercontent.com"
+                        buttonText="Logout"
+                        theme='dark'
+                        onLogoutSuccess={logout}
                       />
                   </div>
                   <div>

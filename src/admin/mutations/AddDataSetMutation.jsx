@@ -14,6 +14,10 @@ const mutation = graphql`
         node {
           name
           heb_name
+          description
+          heb_description
+          url
+          data_url
           type
         }
       }
@@ -45,9 +49,10 @@ const commit = (environment: Environment,
       updater: (proxyStore: RecordSourceSelectedProxy) => {
 
         const payload = proxyStore.getRootField('addDataSet');
-        const newEdge = payload.getLinkedRecord('dataSetEdge');
-
-        sharedUpdater(proxyStore, newEdge);
+        if( payload ) {
+          const newEdge = payload.getLinkedRecord('dataSetEdge');
+          sharedUpdater(proxyStore, newEdge);
+        }
       },
       // optimisticUpdater: (proxyStore: RecordSourceSelectorProxy) => {
       //   const id = 'client:root:' + tempID++;
