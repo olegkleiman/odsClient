@@ -9,7 +9,7 @@ import {
 
 const cache = new QueryResponseCache({size: 100, ttl: 100000});
 
-const SERVER = 'http://localhost:4000';
+const SERVER = 'http://localhost:4000/graphql';
 
 async function fetchQuery(operation, variables = {}, cacheConfig) {
 
@@ -31,7 +31,7 @@ async function fetchQuery(operation, variables = {}, cacheConfig) {
 
   const token = localStorage.getItem('odsUserToken');
   if( token ) {
-    const authHeader = `Basic ${token}`;
+    const authHeader = `Bearer ${token}`;
     httpHeaders['Authorization'] = authHeader;
   }
 
