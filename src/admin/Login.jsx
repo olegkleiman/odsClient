@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import {graphql, createFragmentContainer } from 'react-relay';
 import { withRouter } from "react-router-dom";
+import jwtDecode from 'jwt-decode';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -71,12 +72,22 @@ const Logins = (props) => {
       return;
     }
 
+    const resp = await fetch('http://localhost:4000/x', {
+      method: 'post',
+      headers: {
+        'x-code': response.code
+      }
+    })
+    const jsonToken = await resp.json()
+    const decoded = jwtDecode(jsonToken.id_token);
+
     const user = {
-      email: response.profileObj.email,
-      accessToken: response.tokenObj.id_token,
-      pictureUrl: response.profileObj.imageUrl,
-      provider: response.tokenObj.idpId
+      email: decoded.email,
+      accessToken: jsonToken.id_token,
+      pictureUrl: decoded.picture,
+      provider: 'google'
     };
+
     setUser(user);
     ValidateUserMutation.commit(environment,
                                 user.email);
@@ -89,7 +100,8 @@ const Logins = (props) => {
                   clientId="1049230588636-gprtqumhag54a8g4nlpu7d8pje0vpmak.apps.googleusercontent.com"
                   buttonText="Login with Google"
                   theme='dark'
-                  responseType='token permission'
+                  accessType='offline'
+                  responseType='code'
                   onSuccess={googleResponse}
                   onFailure={googleResponse} />
           </CardContent>
