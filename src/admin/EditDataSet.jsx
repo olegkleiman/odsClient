@@ -70,17 +70,17 @@ const EditDataSet = (props) => {
   const [openDialog, setOpenDialog] = useState(props.show);
   useEffect( () => {
     setOpenDialog(props.show);
-    // if( dataset ) {
-    //   setName(dataset.name);
-    //   setHebName(dataset.heb_name);
-    //   setDescription(dataset.description);
-    //   setHebDescriptionChanged(dataset.heb_description);
-    // } else {
-    //   setName(null);
-    //   setHebName(null);
-    //   setDescription(null);
-    //   setHebDescriptionChanged(null);
-    // }
+    if( dataset ) {
+      setName(dataset.name);
+      setHebName(dataset.heb_name);
+      setDescription(dataset.description);
+      setHebDescription(dataset.heb_description);
+    } else {
+      setName(null);
+      setHebName(null);
+      setDescription(null);
+      setHebDescription(null);
+    }
   })
 
   const [name, setName] = useState('');
@@ -89,6 +89,7 @@ const EditDataSet = (props) => {
   const [hebDescription, setHebDescription] = useState('');
   const [categoryIds, setCategoryIds] = useState();
   const [tabIndex, setTabIndex] = useState(0);
+  const [dataURL, setDataURL] = useState('');
 
   const handleModalClose = () => {
     setOpenDialog(false);
@@ -102,6 +103,7 @@ const EditDataSet = (props) => {
         heb_name: hebName,
         description: description,
         heb_description: hebDescription,
+        data_url: dataURL,
         type: "REPORT",
         whenPublished: moment().format('YYYY-MM-DD'),
         categoryIds: categoryIds,
@@ -128,6 +130,10 @@ const EditDataSet = (props) => {
   const categoriesChanged = (items) => {
     const ids = items.map( item => parseInt(item.value,10) );
     setCategoryIds(ids);
+  }
+
+  const dataURLChanged = (event) => {
+    setDataURL(event.target.value);
   }
 
   const addVisualization = () => {
@@ -198,7 +204,7 @@ const EditDataSet = (props) => {
                         onChange={categoriesChanged}
                         options={categoryOptions} />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <TextField
                       required
                       defaultValue={description}
@@ -212,7 +218,7 @@ const EditDataSet = (props) => {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <TextField
                       required
                       defaultValue={hebDescription}
@@ -223,6 +229,17 @@ const EditDataSet = (props) => {
                       rowsMax="4"
                       id="description"
                       label="Hebrew Description"
+                      variant="outlined"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      defaultValue={dataURL}
+                      onChange={dataURLChanged}
+                      margin="dense"
+                      label="Data URL"
                       variant="outlined"
                       fullWidth
                     />
