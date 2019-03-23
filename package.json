@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "webpack -d --watch",
+    "start": "webpack-dev-server --progress --hot",
     "compile": "babel-node ./scripts/getSchema.js http://localhost:4000 > ./schemas/schema.graphql && relay-compiler --src ./src --schema schemas/schema.graphql --extensions=jsx"
   },
   "dependencies": {
@@ -55,6 +56,8 @@
     "babel-loader": "^8.0.5",
     "relay-compiler": "^2.0.0",
     "style-loader": "^0.23.1",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-visualizer-plugin": "^0.1.11"
   }
 }

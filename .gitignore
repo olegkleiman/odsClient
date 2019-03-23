@@ -1,5 +1,6 @@
 node_modules/
 dist/*.js
+dist/stats.html
 schemas/*.graphql
 src/__generated__/*.js
 src/admin/__generated__/*.js

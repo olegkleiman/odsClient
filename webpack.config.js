@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+var path = require('path');
+var Visualizer = require('webpack-visualizer-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -22,5 +24,10 @@ module.exports = {
     path: __dirname + '/dist',
     publicPath: '/',
     filename: 'bundle.js'
-  }
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true
+  },
+  plugins: [new Visualizer()]
 };
