@@ -9,7 +9,7 @@ import {
 
 const cache = new QueryResponseCache({size: 100, ttl: 100000});
 
-const SERVER = 'http://localhost:4000/graphql';
+const SERVER = 'https://localhost:4000/graphql';
 
 async function fetchQuery(operation, variables = {}, cacheConfig) {
 
