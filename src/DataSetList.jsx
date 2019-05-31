@@ -9,8 +9,8 @@ import DataSet from './DataSet';
 const DataSetList = (props: DataSetList_list) => {
   return (<ul>
     {
-      props.list.datasets.edges.map( item => {
-        return (<li key={ uid(item) }>
+      props.list.datasets.edges.map( (item, index) => {
+        return (<li key={index}>
                     <DataSet item={item.node} />
                 </li>)
       })

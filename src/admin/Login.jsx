@@ -72,7 +72,7 @@ const Logins = (props) => {
       return;
     }
 
-    const resp = await fetch('http://localhost:4000/x', {
+    const resp = await fetch('https://localhost:4000/x', {
       method: 'post',
       headers: {
         'x-code': response.code
